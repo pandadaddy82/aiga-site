@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: OWNER/REPO          # ← 대표님 깃허브 사용자명/저장소명 으로 바꾸세요 (예: jangdokyun/aiga-site)
+  repo: pandadaddy82/aiga-site          # ← 대표님 깃허브 사용자명/저장소명 으로 바꾸세요 (예: jangdokyun/aiga-site)
   branch: main
 
 media_folder: static/uploads
