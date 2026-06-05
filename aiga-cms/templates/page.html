@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--META-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green-900:#0A1F16;--green-850:#0C2619;--green-700:#123D2B;--green:#185840;--green-soft:#2E7A5A;--gold:#C9A961;--gold-bright:#E6CF9A;--cream:#F8F6F0;--paper:#FBFAF6;--ink:#1C1C18;--ink-soft:#5B5B51;--line:#E6E1D4;--maxw:1180px;--font:"Nanum Gothic",-apple-system,BlinkMacSystemFont,"Malgun Gothic",sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);background:var(--paper);line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+#hdr{position:sticky;top:0;z-index:100;background:rgba(251,250,246,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+#hdr .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+#hdr .brand img{height:48px;width:auto}
+#hdr .nav-links{display:flex;gap:28px}
+#hdr .nav-links a{font-size:15px;color:var(--ink-soft);font-weight:700;transition:color .2s}
+#hdr .nav-links a:hover,#hdr .nav-links a.active{color:var(--green)}
+#hdr .nav-cta{background:var(--green);color:#fff;font-weight:700;font-size:14.5px;padding:10px 21px;border-radius:999px;transition:background .2s}
+#hdr .nav-cta:hover{background:#0F4733}
+@media(max-width:760px){#hdr .nav-links{display:none}#hdr .brand img{height:42px}}
+.page-hero{background:radial-gradient(120% 140% at 80% 0%, var(--green-700) 0%, var(--green-900) 62%);color:#fff;padding:74px 0 60px}
+.page-hero .crumb{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:22px}
+.page-hero .crumb a{color:rgba(255,255,255,.75)}
+.page-hero .crumb a:hover{color:var(--gold)}
+.page-hero .eyebrow{display:inline-block;color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.page-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;line-height:1.32;margin-bottom:14px}
+.page-hero p{color:rgba(255,255,255,.8);font-size:16px;max-width:620px;line-height:1.8}
+.sec{padding:64px 0}
+.ins-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px}
+.ins-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.ins-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(10,31,22,.1);border-color:var(--green-soft)}
+.ins-card .ic-tag{display:inline-block;align-self:flex-start;color:var(--green);background:rgba(24,88,64,.08);font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;margin-bottom:16px}
+.ins-card h3{font-size:20px;font-weight:800;line-height:1.4;color:var(--ink);margin-bottom:12px}
+.ins-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.7;flex:1}
+.ins-card .ic-date{margin-top:18px;font-size:12.5px;color:#9a978c;font-weight:700}
+.ins-card .ins-more{margin-top:10px;color:var(--green);font-weight:700;font-size:14px}
+.note-soon{text-align:center;color:var(--ink-soft);font-size:14.5px;margin-top:42px}
+.article{max-width:720px;margin:0 auto;padding:60px 24px 20px}
+.article .a-tag{display:inline-block;color:var(--green);background:rgba(24,88,64,.08);font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:999px;margin-bottom:20px}
+.article h1{font-size:clamp(27px,3.6vw,38px);font-weight:800;line-height:1.34;color:var(--ink);margin-bottom:16px}
+.article .a-meta{font-size:13.5px;color:#9a978c;font-weight:700;border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:32px}
+.article .a-lead{font-size:18px;line-height:1.85;color:var(--ink);font-weight:700;margin-bottom:26px}
+.article p{font-size:16.5px;line-height:1.9;color:#33332c;margin-bottom:22px}
+.article h2{font-size:21px;font-weight:800;color:var(--green);margin:40px 0 16px}
+.article blockquote{border-left:3px solid var(--gold);background:var(--cream);padding:18px 24px;border-radius:0 12px 12px 0;margin:28px 0;font-size:16.5px;line-height:1.8;color:var(--ink)}
+.article .a-sign{margin-top:6px;color:var(--ink-soft);font-size:15px}
+.a-foot{max-width:720px;margin:36px auto 0;padding:0 24px}
+.a-foot-box{border-top:1px solid var(--line);padding-top:28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.a-back{color:var(--green);font-weight:700;font-size:15px}
+.a-cta{background:var(--green);color:#fff;font-weight:700;font-size:14.5px;padding:12px 24px;border-radius:999px}
+.a-cta:hover{background:#0F4733}
+footer{background:var(--green-900);color:rgba(255,255,255,.72);padding:64px 0 40px;margin-top:80px}
+footer .foot-main{text-align:center;max-width:680px;margin:0 auto}
+.logo-foot{height:62px;width:auto;margin:0 auto 20px;opacity:.95}
+.fslogan{font-size:18px;color:#fff;font-weight:700;margin-bottom:10px}
+.fname{font-size:13.5px;color:var(--gold);letter-spacing:.04em;margin-bottom:22px}
+.foot-info{font-size:13px;line-height:2;color:rgba(255,255,255,.6)}
+.foot-info a{color:rgba(255,255,255,.72)}
+.foot-info a:hover{color:var(--gold)}
+.foot-nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:34px 0 22px;font-size:14px}
+.foot-nav a{color:rgba(255,255,255,.78);font-weight:700}
+.foot-nav a:hover{color:var(--gold)}
+.foot-nav span{color:rgba(255,255,255,.3)}
+.foot-copy{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;text-align:center;font-size:12px;color:rgba(255,255,255,.42);border-top:1px solid rgba(255,255,255,.1);padding-top:22px}
+</style>
+</head>
+<body>
+<header id="hdr"><div class="wrap nav">
+<a class="brand" href="../index.html"><img src="../aiga-logo.png" alt="AIGA AI거버넌스협회"></a>
+<nav class="nav-links">
+<a href="../index.html#about">소개</a>
+<a href="../index.html#paths">대상별 안내</a>
+<a href="../index.html#work">하는 일</a>
+<a href="./" class="active">인사이트</a>
+<a href="../index.html#join">함께하기</a>
+</nav>
+<a class="nav-cta" href="../index.html#join">상담 문의</a>
+</div></header>
+<!--CONTENT-->
+<footer><div class="wrap">
+<div class="foot-main">
+<img class="logo-foot" src="../aiga-logo-gold.png" alt="AIGA AI거버넌스협회">
+<div class="fslogan">신뢰를 규격으로, 거버넌스를 일상으로.</div>
+<div class="fname">AI거버넌스협회 · AI Governance Association</div>
+<div class="foot-info">에이아이(AI)거버넌스협회 &nbsp;·&nbsp; 대표 장도균<br>고유번호 113-82-86431<br>경기도 고양시 일산서구 하이파크1로91번길 4-1, 2층<br>전화 <a href="tel:01072786015">010-7278-6015</a> &nbsp;·&nbsp; 이메일 <a href="mailto:md454243@gmail.com">md454243@gmail.com</a></div>
+</div>
+<nav class="foot-nav">
+<a href="../index.html#about">소개</a><span>·</span><a href="../index.html#paths">대상별 안내</a><span>·</span><a href="../index.html#work">하는 일</a><span>·</span><a href="./">인사이트</a><span>·</span><a href="../index.html#join">함께하기</a>
+</nav>
+<div class="foot-copy"><span>© 2026 AIGA · AI거버넌스협회</span><span>AI에게 일을 맡기되, 키는 사람이 잡는다.</span></div>
+</div></footer>
+</body>
+</html>
