@@ -123,13 +123,168 @@ _home_html = open(_home_path, encoding='utf-8').read()
 _pat = re.compile(r'<div class="insights">.*?</div>\s*<div style="text-align:center;margin-top:40px">', re.DOTALL)
 _repl = '<div class="insights">' + _home_cards + '</div>\n    <div style="text-align:center;margin-top:40px">'
 _new_home, _n = _pat.subn(lambda m: _repl, _home_html, count=1)
-if _n == 1:
-    open(_home_path, 'w', encoding='utf-8').write(_new_home)
-    print('home insights updated:', len(posts[:3]), 'cards')
-else:
+if _n != 1:
     print('WARNING: home insights section NOT matched')
 
-urls = [SITE + '/', SITE + '/insights/'] + [SITE + '/insights/' + p['slug'] + '.html' for p in posts]
+# 홈 head 보강: 제목·설명·구조화 데이터(AIGA Korea / 키워드 / 창립자)
+_new_home = re.sub(r'<title>.*?</title>',
+    '<title>AI거버넌스협회 (AIGA Korea) — 신뢰를 규격으로, 거버넌스를 일상으로</title>',
+    _new_home, count=1, flags=re.DOTALL)
+_desc = ('AI거버넌스협회(AIGA Korea)는 기업·공공기관·소상공인·1인기업을 대상으로 '
+         'AI 활용 진단, 생성형 AI 리스크 관리, AI 윤리 가이드라인, AI 거버넌스 교육·컨설팅을 제공하는 비영리 협회입니다. '
+         '통제가 아니라 사람의 주도권에서 출발합니다.')
+_new_home = re.sub(r'<meta name="description" content=".*?">',
+    '<meta name="description" content="' + _desc + '">',
+    _new_home, count=1, flags=re.DOTALL)
+_jsonld = ('<script type="application/ld+json">\n'
+    '{\n'
+    '  "@context": "https://schema.org",\n'
+    '  "@type": "Organization",\n'
+    '  "name": "에이아이(AI)거버넌스협회",\n'
+    '  "alternateName": ["AI거버넌스협회", "AIGA", "AIGA Korea", "AI Governance Association", "AI Governance Association Korea"],\n'
+    '  "url": "' + SITE + '/",\n'
+    '  "logo": "' + SITE + '/aiga-logo.png",\n'
+    '  "image": "' + SITE + '/og-image.png",\n'
+    '  "description": "' + _desc + '",\n'
+    '  "slogan": "신뢰를 규격으로, 거버넌스를 일상으로",\n'
+    '  "founder": {"@type": "Person", "name": "장도균"},\n'
+    '  "email": "md454243@gmail.com",\n'
+    '  "telephone": "+82-10-7278-6015",\n'
+    '  "address": {\n'
+    '    "@type": "PostalAddress",\n'
+    '    "streetAddress": "하이파크1로91번길 4-1, 2층",\n'
+    '    "addressLocality": "고양시 일산서구",\n'
+    '    "addressRegion": "경기도",\n'
+    '    "addressCountry": "KR"\n'
+    '  },\n'
+    '  "knowsAbout": ["AI 거버넌스", "AI 윤리", "생성형 AI", "AI 리스크 관리", "AI 규제", "한국 AI 기본법", "책임 있는 AI", "소상공인 AI 활용"],\n'
+    '  "areaServed": "KR"\n'
+    '}\n'
+    '</script>')
+_new_home = re.sub(r'<script type="application/ld\+json">.*?</script>',
+    lambda m: _jsonld, _new_home, count=1, flags=re.DOTALL)
+open(_home_path, 'w', encoding='utf-8').write(_new_home)
+print('home head updated')
+
+# 소개 페이지(/about) 생성
+_about_meta = ('<title>AI거버넌스협회 (AIGA Korea) 소개</title>\n'
+    '<meta name="description" content="' + _desc + '">\n'
+    '<link rel="canonical" href="' + SITE + '/about/">\n'
+    '<meta property="og:type" content="website">\n'
+    '<meta property="og:title" content="AI거버넌스협회 (AIGA Korea) 소개">\n'
+    '<meta property="og:description" content="' + _desc + '">\n'
+    '<meta property="og:image" content="' + SITE + '/og-image.png">\n'
+    '<meta name="theme-color" content="#0A1F16">')
+_about_body = ('<article class="article">\n'
+    '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · 소개</div>\n'
+    '<span class="a-tag">협회 소개</span>\n'
+    '<h1>AI거버넌스협회 (AIGA Korea) 소개</h1>\n'
+    '<p class="a-lead">AI거버넌스협회(AIGA Korea)는 기업·공공기관·소상공인·1인기업을 대상으로 AI 활용 진단, 생성형 AI 리스크 관리, AI 윤리 가이드라인, AI 거버넌스 교육과 컨설팅을 제공하는 비영리 협회입니다.</p>\n'
+    '<p>우리는 ‘AI를 어떻게 막을 것인가’가 아니라 ‘사람이 어떻게 주도권을 잃지 않고 AI를 쓸 것인가’에서 출발합니다. 거버넌스는 선언이 아니라 실제로 작동하는 체계일 때 의미가 있다고 믿습니다. 그래서 신뢰를 누구나 검증할 수 있는 규격으로 만들고, 그 규격을 기업과 기관, 작은 가게까지 실제로 쓸 수 있게 건네는 일을 합니다.</p>\n'
+    '<h2>하는 일</h2>\n'
+    '<p>국내외 규제 지형과 현장 사례를 검증된 자료로 정리하는 연구·집필, 선언이 아니라 현장에서 따라 할 수 있는 절차로 만드는 표준·윤리 가이드라인, 세 주체 누구나 자기 자리에서 실행하도록 돕는 교육·세미나·자격, 그리고 조직을 진단하고 스스로 운영할 역량을 넘기는 컨설팅·자문입니다.</p>\n'
+    '<h2>누구를 위한 곳인가</h2>\n'
+    '<p>대기업만을 위한 거버넌스가 아닙니다. 기업과 공공기관은 물론, 특히 자원이 적은 소상공인과 1인 창업가가 실제로 지킬 수 있는 ‘작은 조직의 AI 거버넌스’를 중요하게 다룹니다. 완벽한 규칙 백 개가 아니라 지켜지는 규칙 세 개가 더 낫다고 믿습니다.</p>\n'
+    '<h2>협회 개요</h2>\n'
+    '<p>\n'
+    '<strong>정식 명칭</strong> 에이아이(AI)거버넌스협회<br>\n'
+    '<strong>영문 명칭</strong> AI Governance Association (AIGA Korea)<br>\n'
+    '<strong>약칭</strong> AIGA<br>\n'
+    '<strong>대표</strong> 장도균<br>\n'
+    '<strong>성격</strong> 비영리 협회<br>\n'
+    '<strong>고유번호</strong> 113-82-86431<br>\n'
+    '<strong>소재지</strong> 경기도 고양시 일산서구 하이파크1로91번길 4-1, 2층<br>\n'
+    '<strong>전화</strong> 010-7278-6015<br>\n'
+    '<strong>이메일</strong> md454243@gmail.com\n'
+    '</p>\n'
+    '</article>\n'
+    '<div class="a-foot"><div class="a-foot-box">\n'
+    '<a class="a-back" href="../index.html">← 홈으로</a>\n'
+    '<a class="a-cta" href="../index.html#join">상담 문의하기</a>\n'
+    '</div></div>')
+os.makedirs(os.path.join(OUT, 'about'), exist_ok=True)
+open(os.path.join(OUT, 'about', 'index.html'), 'w', encoding='utf-8').write(render(_about_meta, _about_body))
+print('about page created')
+
+# 정보 페이지(content/pages/*.md) 생성 (about 포함 — 위 about 출력을 덮어씀)
+_PAGES = os.path.join(ROOT, 'content', 'pages')
+_nav = ('<div class="a-foot"><div class="a-foot-box" style="flex-wrap:wrap;gap:14px;justify-content:center">'
+    '<a class="a-back" href="../about/">소개</a>'
+    '<a class="a-back" href="../mission/">미션·가치</a>'
+    '<a class="a-back" href="../services/">하는 일</a>'
+    '<a class="a-back" href="../ai-governance-guide/">AI 거버넌스 입문</a>'
+    '<a class="a-back" href="../insights/">인사이트</a>'
+    '<a class="a-cta" href="../index.html#join">상담 문의하기</a>'
+    '</div></div>')
+_page_slugs = []
+if os.path.isdir(_PAGES):
+    for _fn in sorted(os.listdir(_PAGES)):
+        if not _fn.endswith('.md'):
+            continue
+        _raw = open(os.path.join(_PAGES, _fn), encoding='utf-8').read()
+        _mm = re.match(r'^---\s*\n(.*?)\n---\s*\n?(.*)$', _raw, re.DOTALL)
+        _fm = yaml.safe_load(_mm.group(1)) or {}
+        _bmd = _mm.group(2).strip()
+        _slug = str(_fm.get('slug') or os.path.splitext(_fn)[0])
+        _ptitle = str(_fm.get('title', ''))
+        _pdesc = str(_fm.get('description', ''))
+        _bhtml = markdown.markdown(_bmd, extensions=['extra'])
+        _bhtml = re.sub(r'^<p>', '<p class="a-lead">', _bhtml, count=1)
+        _pmeta = ('<title>' + esc(_ptitle) + ' — AI거버넌스협회</title>\n'
+            '<meta name="description" content="' + esc(_pdesc) + '">\n'
+            '<link rel="canonical" href="' + SITE + '/' + _slug + '/">\n'
+            '<meta property="og:type" content="website">\n'
+            '<meta property="og:title" content="' + esc(_ptitle) + '">\n'
+            '<meta property="og:description" content="' + esc(_pdesc) + '">\n'
+            '<meta property="og:image" content="' + SITE + '/og-image.png">\n'
+            '<meta name="theme-color" content="#0A1F16">')
+        _pcontent = ('<article class="article">\n'
+            '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · ' + esc(_ptitle) + '</div>\n'
+            '<h1>' + esc(_ptitle) + '</h1>\n'
+            + _bhtml + '\n</article>\n' + _nav)
+        os.makedirs(os.path.join(OUT, _slug), exist_ok=True)
+        open(os.path.join(OUT, _slug, 'index.html'), 'w', encoding='utf-8').write(render(_pmeta, _pcontent))
+        _page_slugs.append(_slug)
+print('pages built:', _page_slugs)
+
+# llms.txt 갱신 (협회 사실 + 주요 페이지 + 최근 글)
+_llms = ('# AI거버넌스협회 (AIGA · AIGA Korea · AI Governance Association)\n\n'
+    "> AI거버넌스협회는 'AI를 어떻게 통제할 것인가'가 아니라 '인간이 어떻게 주도권을 쥘 것인가'에서 출발하는 대한민국의 비영리 협회입니다. 신뢰를 검증 가능한 규격으로 만들고, 선언이 아니라 실제로 작동하는 AI 거버넌스를 설계·보급합니다.\n"
+    '> 참고: 일본의 동명 단체(AI Governance Association)와는 구별되는, 대한민국의 협회입니다.\n\n'
+    '## 핵심 정보\n'
+    '- 정식 명칭: 에이아이(AI)거버넌스협회\n'
+    '- 영문: AI Governance Association (AIGA Korea)\n'
+    '- 약칭: AIGA\n'
+    '- 슬로건: 신뢰를 규격으로, 거버넌스를 일상으로.\n'
+    '- 성격: 비영리 협회 (고유번호 113-82-86431)\n'
+    '- 대표: 장도균\n'
+    '- 대상: 기업·기관, 소상공인·1인 창업가, 공공·정책\n'
+    '- 핵심 가치(3T): Trust(신뢰) · Transfer(이전) · Together(협력)\n\n'
+    '## 하는 일\n'
+    '- 연구·집필: 국내외 규제 지형과 현장 사례를 검증된 자료로 정리\n'
+    '- 표준·윤리 가이드라인: 선언이 아닌, 현장에서 작동하는 절차로 설계\n'
+    '- 교육·세미나·자격: 세 주체 누구나 자기 자리에서 실행하도록 교육\n'
+    '- 컨설팅·자문: 실체 진단 → 시스템 구축 → 역량 이전\n\n'
+    '## 주요 페이지\n'
+    '- 소개: ' + SITE + '/about/\n'
+    '- 미션과 가치: ' + SITE + '/mission/\n'
+    '- 하는 일: ' + SITE + '/services/\n'
+    '- AI 거버넌스 입문: ' + SITE + '/ai-governance-guide/\n'
+    '- 인사이트(칼럼): ' + SITE + '/insights/\n'
+    '- 문의: ' + SITE + '/contact/\n')
+if posts:
+    _llms += '\n## 최근 글\n'
+    for _p in posts[:8]:
+        _llms += '- ' + _p['title'] + ': ' + SITE + '/insights/' + _p['slug'] + '.html\n'
+_llms += ('\n## 연락처\n'
+    '- 이메일: md454243@gmail.com\n'
+    '- 전화: 010-7278-6015\n'
+    '- 주소: 경기도 고양시 일산서구 하이파크1로91번길 4-1, 2층\n'
+    '- 웹사이트: ' + SITE + '/\n')
+open(os.path.join(OUT, 'llms.txt'), 'w', encoding='utf-8').write(_llms)
+print('llms.txt updated')
+
+urls = [SITE + '/'] + [SITE + '/' + _s + '/' for _s in _page_slugs] + [SITE + '/insights/'] + [SITE + '/insights/' + p['slug'] + '.html' for p in posts]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 for u in urls:
     sm += '  <url><loc>' + u + '</loc></url>\n'
