@@ -208,14 +208,7 @@ print('about page created')
 
 # 정보 페이지(content/pages/*.md) 생성 (about 포함 — 위 about 출력을 덮어씀)
 _PAGES = os.path.join(ROOT, 'content', 'pages')
-_nav = ('<div class="a-foot"><div class="a-foot-box" style="flex-wrap:wrap;gap:14px;justify-content:center">'
-    '<a class="a-back" href="../about/">소개</a>'
-    '<a class="a-back" href="../mission/">미션·가치</a>'
-    '<a class="a-back" href="../services/">하는 일</a>'
-    '<a class="a-back" href="../ai-governance-guide/">AI 거버넌스 입문</a>'
-    '<a class="a-back" href="../insights/">인사이트</a>'
-    '<a class="a-cta" href="../index.html#join">상담 문의하기</a>'
-    '</div></div>')
+# (본문 끝 내비는 제거 — 상단 고정 메뉴로 대체)
 _page_slugs = []
 if os.path.isdir(_PAGES):
     for _fn in sorted(os.listdir(_PAGES)):
@@ -241,7 +234,7 @@ if os.path.isdir(_PAGES):
         _pcontent = ('<article class="article">\n'
             '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · ' + esc(_ptitle) + '</div>\n'
             '<h1>' + esc(_ptitle) + '</h1>\n'
-            + _bhtml + '\n</article>\n' + _nav)
+            + _bhtml + '\n</article>')
         os.makedirs(os.path.join(OUT, _slug), exist_ok=True)
         open(os.path.join(OUT, _slug, 'index.html'), 'w', encoding='utf-8').write(render(_pmeta, _pcontent))
         _page_slugs.append(_slug)
