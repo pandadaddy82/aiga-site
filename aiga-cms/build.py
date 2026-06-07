@@ -100,6 +100,35 @@ list_meta = (
 )
 open(os.path.join(OUT, 'insights', 'index.html'), 'w', encoding='utf-8').write(render(list_meta, list_content))
 
+# 홈 메인페이지(index.html)의 인사이트 카드를 최신 글 3개로 자동 채우기
+_orbits = [
+    '<circle cx="75" cy="75" r="60" stroke="rgba(248,246,240,.5)" stroke-width="1"/><circle cx="75" cy="15" r="5" fill="rgba(248,246,240,.7)"/>',
+    '<ellipse cx="75" cy="75" rx="60" ry="36" stroke="rgba(248,246,240,.5)" stroke-width="1"/><circle cx="135" cy="75" r="5" fill="rgba(248,246,240,.7)"/>',
+    '<circle cx="75" cy="75" r="48" stroke="rgba(248,246,240,.5)" stroke-width="1"/><circle cx="75" cy="135" r="5" fill="rgba(248,246,240,.7)"/>',
+]
+_home_cards = ''
+for _i, _p in enumerate(posts[:3]):
+    _d = '' if _i == 0 else ' d' + str(_i)
+    _orbit = _orbits[_i % len(_orbits)]
+    _home_cards += (
+        '\n      <article class="icard reveal' + _d + '">\n'
+        '        <div class="ihead"><svg class="ic-orbit" viewBox="0 0 150 150" fill="none">' + _orbit + '</svg></div>\n'
+        '        <div class="ibody"><span class="ic-tag">' + esc(_p['cat']) + '</span><h4>' + esc(_p['title']) + '</h4><p>' + esc(_p['summary']) + '</p>'
+        '<a class="ic-read" href="insights/' + _p['slug'] + '.html" style="display:inline-block;margin-top:16px;color:var(--gold);font-weight:700;font-size:14px">\uc77d\uc5b4\ubcf4\uae30 \u2192</a></div>\n'
+        '      </article>'
+    )
+_home_cards += '\n    '
+_home_path = os.path.join(OUT, 'index.html')
+_home_html = open(_home_path, encoding='utf-8').read()
+_pat = re.compile(r'<div class="insights">.*?</div>\s*<div style="text-align:center;margin-top:40px">', re.DOTALL)
+_repl = '<div class="insights">' + _home_cards + '</div>\n    <div style="text-align:center;margin-top:40px">'
+_new_home, _n = _pat.subn(lambda m: _repl, _home_html, count=1)
+if _n == 1:
+    open(_home_path, 'w', encoding='utf-8').write(_new_home)
+    print('home insights updated:', len(posts[:3]), 'cards')
+else:
+    print('WARNING: home insights section NOT matched')
+
 urls = [SITE + '/', SITE + '/insights/'] + [SITE + '/insights/' + p['slug'] + '.html' for p in posts]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 for u in urls:
