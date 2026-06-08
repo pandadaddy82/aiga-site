@@ -6,7 +6,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'output')
 STATIC = os.path.join(ROOT, 'static')
 CONTENT = os.path.join(ROOT, 'content', 'insights')
-SITE = 'https://aigakorea.netlify.app'
+SITE = 'https://aiga.or.kr'
 
 page = open(os.path.join(ROOT, 'templates', 'page.html'), encoding='utf-8').read()
 

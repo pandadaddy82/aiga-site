@@ -28,4 +28,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://aigakorea.netlify.app/sitemap.xml
+Sitemap: https://aiga.or.kr/sitemap.xml
