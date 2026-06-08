@@ -80,6 +80,39 @@ footer .foot-main{text-align:center;max-width:680px;margin:0 auto}
 .foot-nav a:hover{color:var(--gold)}
 .foot-nav span{color:rgba(255,255,255,.3)}
 .foot-copy{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;text-align:center;font-size:12px;color:rgba(255,255,255,.42);border-top:1px solid rgba(255,255,255,.1);padding-top:22px}
+
+/* ===== 상담 신청 팝업 ===== */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(10,31,22,.62);backdrop-filter:blur(4px)}
+.modal.open{display:flex;animation:mfade .25s ease}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.modal-card{background:var(--paper);border-radius:22px;max-width:520px;width:100%;padding:42px 38px;position:relative;max-height:92vh;overflow:auto;box-shadow:0 40px 90px -30px rgba(0,0,0,.55);animation:mpop .3s ease}
+@keyframes mpop{from{transform:translateY(16px) scale(.985);opacity:0}to{transform:none;opacity:1}}
+.modal-x{position:absolute;top:16px;right:16px;width:36px;height:36px;border:none;background:transparent;cursor:pointer;font-size:26px;color:var(--ink-soft);line-height:1;border-radius:9px;transition:background .2s}
+.modal-x:hover{background:var(--cream)}
+.modal-card .m-eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.modal-card h3{font-size:24px;color:var(--green);margin:8px 0 6px;letter-spacing:-.02em;font-weight:800}
+.modal-card .m-sub{font-size:14.5px;color:var(--ink-soft);margin-bottom:24px;line-height:1.6}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:7px}
+.field label .req{color:var(--gold);margin-left:3px}
+.field input,.field select,.field textarea{width:100%;font-family:var(--font);font-size:15px;color:var(--ink);padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:#fff;transition:border-color .2s,box-shadow .2s}
+.field textarea{resize:vertical;min-height:76px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(24,88,64,.1)}
+.field .err{font-size:12.5px;color:#B23A3A;margin-top:6px;display:none}
+.field.invalid input,.field.invalid select{border-color:#B23A3A}
+.field.invalid .err{display:block}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:18px 0 24px;padding:14px 16px;background:var(--cream);border-radius:12px;transition:outline .2s}
+.agree input{margin-top:2px;flex:0 0 auto;width:18px;height:18px;accent-color:var(--green)}
+.agree label{font-size:12.5px;color:var(--ink-soft);line-height:1.6;font-weight:400}
+.agree.invalid{outline:1.5px solid #B23A3A}
+.btn-submit{width:100%;background:var(--green);color:#fff;font-family:var(--font);font-size:15.5px;font-weight:700;padding:15px;border:none;border-radius:12px;cursor:pointer;transition:background .2s,transform .15s}
+.btn-submit:hover{background:#0F4733;transform:translateY(-1px)}
+.form-done{display:none;text-align:center;padding:24px 6px}
+.form-done .check{width:66px;height:66px;border-radius:50%;background:rgba(24,88,64,.1);color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px;font-weight:700}
+.form-done h3{color:var(--green);margin-bottom:10px;font-size:22px;font-weight:800}
+.form-done p{font-size:14.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:26px}
+.done-close{background:var(--green);color:#fff;border:none;font-family:var(--font);font-weight:700;font-size:15px;padding:13px 30px;border-radius:999px;cursor:pointer}
+@media(max-width:520px){.modal-card{padding:34px 24px}}
 </style>
 </head>
 <body>
@@ -92,7 +125,7 @@ footer .foot-main{text-align:center;max-width:680px;margin:0 auto}
 <a href="/services/">하는 일</a>
 <a href="/ai-governance-guide/">AI 거버넌스 입문</a>
 <a href="/insights/">인사이트</a>
-<a class="nav-cta" href="/#consult">상담 문의</a>
+<a class="nav-cta" href="#consult" data-modal="consult">상담 문의</a>
 </nav>
 </div></header>
 <!--CONTENT-->
@@ -117,6 +150,127 @@ if(t&&n){t.addEventListener('click',function(){
 var o=n.classList.toggle('open');
 t.setAttribute('aria-expanded',o?'true':'false');
 });}
+})();
+</script>
+
+<!-- ===== 상담 신청 팝업 (홈과 동일) ===== -->
+<div class="modal" id="applyModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <button class="modal-x" id="modalX" aria-label="닫기">&times;</button>
+    <div id="formBody">
+      <div class="m-eyebrow">함께하기</div>
+      <h3 id="m-title">신청하기</h3>
+      <p class="m-sub">이름과 이메일만 남겨 주세요. 확인 후 입력하신 이메일로 안내드리겠습니다.</p>
+      <form id="applyForm" novalidate>
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">
+        <div class="field">
+          <label for="m-type">신청 유형</label>
+          <select id="m-type" name="type">
+            <option value="member">회원가입</option>
+            <option value="consult">컨설팅 문의</option>
+            <option value="edu">교육 신청</option>
+            <option value="news">소식 받기</option>
+          </select>
+        </div>
+        <div class="field" id="f-name">
+          <label>이름<span class="req">*</span></label>
+          <input type="text" name="name" placeholder="성함을 입력해 주세요" autocomplete="name">
+          <div class="err">이름을 입력해 주세요.</div>
+        </div>
+        <div class="field" id="f-email">
+          <label>이메일<span class="req">*</span></label>
+          <input type="email" name="email" placeholder="example@email.com" autocomplete="email">
+          <div class="err">올바른 이메일 주소를 입력해 주세요.</div>
+        </div>
+        <div class="field">
+          <label for="m-seg">어느 자리에 계신가요 (선택)</label>
+          <select id="m-seg" name="segment">
+            <option value="">선택 안 함</option>
+            <option>기업 · 기관</option>
+            <option>작은 가게 · 1인 창업가</option>
+            <option>공공 · 정책</option>
+            <option>개인</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>남기실 말씀 (선택)</label>
+          <textarea name="message" placeholder="궁금한 점이나 요청을 적어 주세요"></textarea>
+        </div>
+        <div class="agree" id="f-agree">
+          <input type="checkbox" id="m-agree" name="agree">
+          <label for="m-agree">이름과 이메일을 신청 접수 및 안내 연락의 목적으로 수집·이용하는 데 동의합니다. 목적이 끝나거나 요청하시면 지체 없이 파기합니다.</label>
+        </div>
+        <button type="submit" class="btn-submit">신청 보내기</button>
+      </form>
+    </div>
+    <div class="form-done" id="formDone">
+      <div class="check">&#10003;</div>
+      <h3>신청이 접수되었습니다</h3>
+      <p>함께해 주셔서 고맙습니다.<br>확인 후 입력하신 이메일로 안내드리겠습니다.</p>
+      <button class="done-close" id="doneClose">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var modal=document.getElementById('applyModal');
+  if(!modal)return;
+  var typeSel=document.getElementById('m-type');
+  var titleEl=document.getElementById('m-title');
+  var body=document.getElementById('formBody');
+  var done=document.getElementById('formDone');
+  var form=document.getElementById('applyForm');
+  var titleMap={member:'회원가입 신청',consult:'컨설팅 문의',edu:'교육 신청',news:'소식 받기'};
+  function openModal(type){
+    if(type){ typeSel.value=type; }
+    titleEl.textContent=titleMap[typeSel.value]||'신청하기';
+    body.style.display='block'; done.style.display='none';
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  var triggers=document.querySelectorAll('[data-modal]');
+  for(var i=0;i<triggers.length;i++){
+    triggers[i].addEventListener('click',function(e){e.preventDefault();openModal(this.getAttribute('data-modal'));});
+  }
+  // 다른 페이지(/#consult, /#edu 등)에서 들어오면 해당 신청 팝업을 자동으로 연다
+  var _hash=location.hash.replace('#','');
+  if(['consult','edu','member','news'].indexOf(_hash)>=0){openModal(_hash);}
+  typeSel.addEventListener('change',function(){titleEl.textContent=titleMap[typeSel.value]||'신청하기';});
+  document.getElementById('modalX').addEventListener('click',closeModal);
+  document.getElementById('doneClose').addEventListener('click',closeModal);
+  modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
+  function setErr(id,on){document.getElementById(id).classList.toggle('invalid',on);}
+  // ===== 메일 자동 수신 설정 =====
+  // web3forms.com 에서 발급받은 Access Key를 아래 따옴표 안에 붙여넣으면 실제 전송이 켜집니다.
+  // (키를 넣기 전까지는 신청해도 아무 곳에 전송되지 않고 완료 화면만 표시됩니다.)
+  var ACCESS_KEY="d7186641-e1c1-4e5c-a0cd-cb2315da2d59";
+  var typeLabel={member:'회원가입',consult:'컨설팅 문의',edu:'교육 신청',news:'소식 받기'};
+  var submitBtn=form.querySelector('.btn-submit');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=form.name.value.trim();
+    var email=form.email.value.trim();
+    var agree=form.agree.checked;
+    var ok=true;
+    setErr('f-name',!name); if(!name)ok=false;
+    var emailOk=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+    setErr('f-email',!emailOk); if(!emailOk)ok=false;
+    setErr('f-agree',!agree); if(!agree)ok=false;
+    if(!ok)return;
+    if(form.botcheck&&form.botcheck.checked)return;
+    function showDone(){ body.style.display='none'; done.style.display='block'; form.reset(); }
+    if(!ACCESS_KEY||ACCESS_KEY==="YOUR_WEB3FORMS_ACCESS_KEY"){ showDone(); return; }
+    var orig=submitBtn.textContent; submitBtn.disabled=true; submitBtn.textContent="보내는 중...";
+    var t=typeSel.value;
+    var payload={access_key:ACCESS_KEY,subject:"[AIGA 신청] "+(typeLabel[t]||"신청")+" · "+name,from_name:"AIGA 홈페이지","신청 유형":typeLabel[t]||t,"이름":name,"이메일":email,"어느 자리":form.segment.value||"-","남기실 말씀":form.message.value||"-"};
+    fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(payload)})
+      .then(function(r){return r.json();})
+      .then(function(d){submitBtn.disabled=false;submitBtn.textContent=orig;if(d.success){showDone();}else{alert("전송에 실패했어요. 잠시 후 다시 시도하시거나 md454243@gmail.com 으로 보내 주세요.");}})
+      .catch(function(){submitBtn.disabled=false;submitBtn.textContent=orig;alert("네트워크 문제로 전송하지 못했어요. 잠시 후 다시 시도해 주세요.");});
+  });
 })();
 </script>
 </body>
