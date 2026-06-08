@@ -50,7 +50,23 @@ for fn in sorted(os.listdir(CONTENT)):
         '<meta property="og:description" content="' + esc(summary) + '">\n'
         '<meta property="og:url" content="' + SITE + '/insights/' + slug + '.html">\n'
         '<meta property="og:image" content="' + SITE + '/og-image.png">\n'
-        '<meta name="theme-color" content="#0A1F16">'
+        '<meta name="theme-color" content="#0A1F16">\n'
+        '<script type="application/ld+json">\n'
+        '{"@context":"https://schema.org","@type":"Article",'
+        '"headline":"' + esc(title) + '",'
+        '"description":"' + esc(summary) + '",'
+        '"datePublished":"' + date + '",'
+        '"author":{"@type":"Organization","name":"에이아이(AI)거버넌스협회"},'
+        '"publisher":{"@type":"Organization","name":"에이아이(AI)거버넌스협회","logo":{"@type":"ImageObject","url":"' + SITE + '/aiga-logo.png"}},'
+        '"mainEntityOfPage":"' + SITE + '/insights/' + slug + '.html"}\n'
+        '</script>\n'
+        '<script type="application/ld+json">\n'
+        '{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":['
+        '{"@type":"ListItem","position":1,"name":"홈","item":"' + SITE + '/"},'
+        '{"@type":"ListItem","position":2,"name":"인사이트","item":"' + SITE + '/insights/"},'
+        '{"@type":"ListItem","position":3,"name":"' + esc(title) + '","item":"' + SITE + '/insights/' + slug + '.html"}'
+        ']}\n'
+        '</script>'
     )
     article = (
         '<article class="article">\n'
@@ -128,7 +144,7 @@ if _n != 1:
 
 # 홈 head 보강: 제목·설명·구조화 데이터(AIGA Korea / 키워드 / 창립자)
 _new_home = re.sub(r'<title>.*?</title>',
-    '<title>AI거버넌스협회 (AIGA Korea) — 신뢰를 규격으로, 거버넌스를 일상으로</title>',
+    '<title>AI거버넌스협회 (AIGA Korea) | AI 거버넌스 교육·컨설팅·윤리 가이드라인</title>',
     _new_home, count=1, flags=re.DOTALL)
 _desc = ('AI거버넌스협회(AIGA Korea)는 기업·공공기관·소상공인·1인기업을 대상으로 '
          'AI 활용 진단, 생성형 AI 리스크 관리, AI 윤리 가이드라인, AI 거버넌스 교육·컨설팅을 제공하는 비영리 협회입니다. '
@@ -139,6 +155,8 @@ _new_home = re.sub(r'<meta name="description" content=".*?">',
 _jsonld = ('<script type="application/ld+json">\n'
     '{\n'
     '  "@context": "https://schema.org",\n'
+    '  "@graph": [\n'
+    '  {\n'
     '  "@type": "Organization",\n'
     '  "name": "에이아이(AI)거버넌스협회",\n'
     '  "alternateName": ["AI거버넌스협회", "AIGA", "AIGA Korea", "AI Governance Association", "AI Governance Association Korea"],\n'
@@ -159,6 +177,14 @@ _jsonld = ('<script type="application/ld+json">\n'
     '  },\n'
     '  "knowsAbout": ["AI 거버넌스", "AI 윤리", "생성형 AI", "AI 리스크 관리", "AI 규제", "한국 AI 기본법", "책임 있는 AI", "소상공인 AI 활용"],\n'
     '  "areaServed": "KR"\n'
+    '  },\n'
+    '  {\n'
+    '  "@type": "WebSite",\n'
+    '  "name": "AI거버넌스협회",\n'
+    '  "alternateName": "AIGA Korea",\n'
+    '  "url": "' + SITE + '/"\n'
+    '  }\n'
+    '  ]\n'
     '}\n'
     '</script>')
 _new_home = re.sub(r'<script type="application/ld\+json">.*?</script>',
@@ -174,7 +200,13 @@ _about_meta = ('<title>AI거버넌스협회 (AIGA Korea) 소개</title>\n'
     '<meta property="og:title" content="AI거버넌스협회 (AIGA Korea) 소개">\n'
     '<meta property="og:description" content="' + _desc + '">\n'
     '<meta property="og:image" content="' + SITE + '/og-image.png">\n'
-    '<meta name="theme-color" content="#0A1F16">')
+    '<meta name="theme-color" content="#0A1F16">\n'
+    '<script type="application/ld+json">\n'
+    '{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":['
+    '{"@type":"ListItem","position":1,"name":"홈","item":"' + SITE + '/"},'
+    '{"@type":"ListItem","position":2,"name":"AI거버넌스협회 (AIGA Korea) 소개","item":"' + SITE + '/about/"}'
+    ']}\n'
+    '</script>')
 _about_body = ('<article class="article">\n'
     '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · 소개</div>\n'
     '<span class="a-tag">협회 소개</span>\n'
@@ -230,7 +262,13 @@ if os.path.isdir(_PAGES):
             '<meta property="og:title" content="' + esc(_ptitle) + '">\n'
             '<meta property="og:description" content="' + esc(_pdesc) + '">\n'
             '<meta property="og:image" content="' + SITE + '/og-image.png">\n'
-            '<meta name="theme-color" content="#0A1F16">')
+            '<meta name="theme-color" content="#0A1F16">\n'
+            '<script type="application/ld+json">\n'
+            '{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":['
+            '{"@type":"ListItem","position":1,"name":"홈","item":"' + SITE + '/"},'
+            '{"@type":"ListItem","position":2,"name":"' + esc(_ptitle) + '","item":"' + SITE + '/' + _slug + '/"}'
+            ']}\n'
+            '</script>')
         _pcontent = ('<article class="article">\n'
             '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · ' + esc(_ptitle) + '</div>\n'
             '<h1>' + esc(_ptitle) + '</h1>\n'
