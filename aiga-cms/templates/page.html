@@ -21,8 +21,8 @@ img{max-width:100%;display:block}
 #hdr .nav-links{display:flex;align-items:center;gap:26px}
 #hdr .nav-links a{font-size:15px;color:var(--ink-soft);font-weight:700;transition:color .2s}
 #hdr .nav-links a:hover,#hdr .nav-links a.active{color:var(--green)}
-#hdr .nav-cta{background:var(--green);color:#fff;font-weight:800;font-size:14.5px;padding:10px 21px;border-radius:999px;transition:background .2s}
-#hdr .nav-cta:hover{background:#0F4733}
+#hdr .nav-cta{background:transparent;border:2px solid var(--green);color:var(--green);font-weight:800;font-size:14.5px;padding:9px 19px;border-radius:999px;transition:background .2s,color .2s}
+#hdr .nav-cta:hover{background:var(--green);color:#fff}
 .nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px;margin:-8px -8px -8px 0}
 .nav-toggle span{display:block;width:24px;height:2px;background:var(--green-900);border-radius:2px;transition:transform .25s,opacity .25s}
 .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -34,7 +34,7 @@ img{max-width:100%;display:block}
 #hdr .nav-links{position:absolute;top:70px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:1px solid var(--line);padding:6px 0;max-height:0;overflow:hidden;transition:max-height .3s ease;box-shadow:0 14px 30px rgba(10,31,22,.09)}
 #hdr .nav-links.open{max-height:440px}
 #hdr .nav-links a{padding:13px 24px;font-size:16px;border-bottom:1px solid rgba(230,225,212,.5)}
-#hdr .nav-cta{margin:12px 24px 8px;text-align:center}
+#hdr .nav-cta{margin:12px 24px 8px;text-align:center;color:#fff;border-color:rgba(244,242,234,.55)}
 }
 .page-hero{background:radial-gradient(120% 140% at 80% 0%, var(--green-700) 0%, var(--green-900) 62%);color:#fff;padding:74px 0 60px}
 .page-hero .crumb{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:22px}
@@ -92,7 +92,7 @@ footer .foot-main{text-align:center;max-width:680px;margin:0 auto}
 <a href="/services/">하는 일</a>
 <a href="/ai-governance-guide/">AI 거버넌스 입문</a>
 <a href="/insights/">인사이트</a>
-<a class="nav-cta" href="/contact/">상담 문의</a>
+<a class="nav-cta" href="/#consult">상담 문의</a>
 </nav>
 </div></header>
 <!--CONTENT-->

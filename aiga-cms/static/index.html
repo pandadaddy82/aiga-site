@@ -681,6 +681,9 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   for(var i=0;i<triggers.length;i++){
     triggers[i].addEventListener('click',function(e){e.preventDefault();openModal(this.getAttribute('data-modal'));});
   }
+  // 다른 페이지(/#consult, /#edu 등)에서 들어오면 해당 신청 팝업을 자동으로 연다
+  var _hash=location.hash.replace('#','');
+  if(['consult','edu','member','news'].indexOf(_hash)>=0){openModal(_hash);}
   typeSel.addEventListener('change',function(){titleEl.textContent=titleMap[typeSel.value]||'신청하기';});
   document.getElementById('modalX').addEventListener('click',closeModal);
   document.getElementById('doneClose').addEventListener('click',closeModal);
