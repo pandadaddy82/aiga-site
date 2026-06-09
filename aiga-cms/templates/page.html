@@ -113,12 +113,20 @@ footer .foot-main{text-align:center;max-width:680px;margin:0 auto}
 .form-done p{font-size:14.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:26px}
 .done-close{background:var(--green);color:#fff;border:none;font-family:var(--font);font-weight:700;font-size:15px;padding:13px 30px;border-radius:999px;cursor:pointer}
 @media(max-width:520px){.modal-card{padding:34px 24px}}
-.page-figure{position:relative;margin:6px 0 38px;height:clamp(200px,30vw,300px);border-radius:20px;overflow:hidden}
-.page-figure img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.93)}
-.page-figure::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(14,44,31,.34),rgba(14,44,31,.06) 52%,transparent);pointer-events:none}
+.page-figure{position:relative;height:clamp(220px,32vw,320px);margin:8px 0 42px}
+.page-figure .pf-seg{position:absolute;left:0;right:0;height:62%;overflow:hidden}
+.page-figure .pf-top{top:0;filter:url(#aigaBrushBold)}
+.page-figure .pf-bot{bottom:0;left:20px;right:-20px;filter:url(#aigaBrushSoft)}
+.page-figure img{position:absolute;left:0;width:100%;height:clamp(220px,32vw,320px);object-fit:cover;display:block;filter:saturate(.92)}
+.page-figure .pf-top img{top:0}
+.page-figure .pf-bot img{bottom:0}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<filter id="aigaBrushSoft" x="-8%" y="-12%" width="116%" height="124%"><feTurbulence type="fractalNoise" baseFrequency="0.016 0.055" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/></filter>
+<filter id="aigaBrushBold" x="-10%" y="-16%" width="120%" height="132%"><feTurbulence type="fractalNoise" baseFrequency="0.011 0.036" numOctaves="3" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="28" xChannelSelector="R" yChannelSelector="G"/></filter>
+</defs></svg>
 <header id="hdr"><div class="wrap nav">
 <a class="brand" href="/"><img src="/aiga-logo.png" alt="AIGA AI거버넌스협회"></a>
 <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>

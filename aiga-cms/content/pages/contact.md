@@ -1,6 +1,7 @@
 ---
 title: "문의·연락처"
 slug: contact
+image: images/contact-talk.jpg
 description: "AI거버넌스협회 연락처와 상담·교육·컨설팅 문의 안내입니다."
 ---
 AI 거버넌스 진단, 교육, 컨설팅, 강연, 협업에 관한 문의를 환영합니다.
