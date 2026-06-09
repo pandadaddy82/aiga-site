@@ -1,4 +1,4 @@
-import os, re, shutil
+import os, re, shutil, json
 import yaml
 import markdown
 
@@ -152,6 +152,42 @@ _desc = ('AI거버넌스협회(AIGA Korea)는 기업·공공기관·소상공인
 _new_home = re.sub(r'<meta name="description" content=".*?">',
     '<meta name="description" content="' + _desc + '">',
     _new_home, count=1, flags=re.DOTALL)
+_faqs = [
+  ("AI 거버넌스란 무엇인가요?",
+   "AI를 안전하고 책임 있게 쓰기 위한 기준과 절차를 뜻합니다. AI거버넌스협회는 이것을 ‘AI를 어떻게 막을 것인가’가 아니라 ‘사람이 어떻게 주도권을 잃지 않고 AI를 쓸 것인가’의 문제로 봅니다. 거버넌스는 멋진 선언이 아니라 현장에서 실제로 지켜지는 체계일 때 비로소 의미가 있습니다."),
+  ("AI 윤리와 AI 거버넌스는 어떻게 다른가요?",
+   "AI 윤리가 ‘무엇이 옳은가’라는 방향과 가치에 대한 것이라면, AI 거버넌스는 그 가치를 실제로 작동시키는 기준과 절차, 책임 구조에 가깝습니다. 윤리가 나침반이라면 거버넌스는 그 방향대로 갈 수 있게 하는 길이자 안전장치입니다. 좋은 뜻만으로는 부족하고, 누가 무엇을 어떻게 점검할지가 정해져야 실제로 작동합니다."),
+  ("작은 가게나 1인기업도 AI 거버넌스가 필요한가요?",
+   "필요합니다. AI로 상품 설명을 쓰거나 고객 문의에 챗봇을 두는 순간, 고객 정보와 콘텐츠 저작권, 표시 의무 같은 문제가 함께 따라옵니다. 다만 대기업처럼 복잡할 필요는 없습니다. 작은 가게에는 작은 거버넌스, 완벽한 규칙 100개보다 실제로 지켜지는 규칙 몇 개가 더 중요합니다. 2026년 1월 시행된 AI 기본법에서도 AI를 서비스에 활용하는 사업자라면 규모와 무관하게 대상이 될 수 있습니다."),
+  ("기업은 AI 사용 현황을 어떻게 점검해야 하나요?",
+   "먼저 무엇을 어디에 쓰고 있는지부터 적어 보는 것이 출발입니다. 이때 직원들이 회사 승인 없이 개인적으로 쓰는 도구까지 포함해 살피는 것이 중요합니다. 그다음 한 장짜리 AI 사용 정책, 고객을 대하는 자리에서의 고지 방식, 문제가 생겼을 때의 연락 경로를 정해 두면 기본 골격이 섭니다."),
+  ("AI 거버넌스 교육은 누구에게 필요한가요?",
+   "AI를 쓰는 모든 조직에 필요합니다. 방향을 정하는 경영진, 실제로 도구를 다루는 실무자, 그리고 1인기업이라면 본인이 그 대상입니다. 거창한 이론보다 ‘우리 일에서 무엇을 조심하고 무엇을 지킬 것인가’를 쉽게 손에 쥐는 데 초점을 둡니다."),
+  ("AI 거버넌스 컨설팅은 어떤 절차로 진행되나요?",
+   "세 단계를 기본으로 합니다. 먼저 지금의 AI 사용 실태와 빈 곳을 정직하게 살피고(실체 진단), 쉽고 지속 가능한 절차를 함께 만든 뒤(시스템 구축), 조직이 스스로 운영할 수 있도록 역량을 넘깁니다(역량 이전). 목표는 협회에 계속 기대게 만드는 것이 아니라 스스로 설 수 있게 돕는 것입니다."),
+  ("AI 관련 법과 규제가 아직 어려운데 무엇부터 시작해야 하나요?",
+   "한 번에 다 갖추려 하기보다 가장 중요한 한 가지부터 시작하시길 권합니다. 우리가 AI를 어디에 쓰고 있는지 적어 보는 것만으로도 절반은 시작된 셈입니다. 규제가 어느 쪽으로 가든 해두면 후회가 없는 것들이 있습니다. AI 사용을 투명하게 밝히기, 출처와 이력을 남기기, 동의를 분명히 받기, 정기적으로 점검하기입니다."),
+]
+_faq_items = ''
+for _q, _a in _faqs:
+    _faq_items += ('      <details><summary>' + esc(_q) + '</summary>'
+                   '<div class="faq-a"><p>' + esc(_a) + '</p></div></details>\n')
+_faq_section = ('<section class="band band-paper" id="faq">\n'
+    '  <div class="wrap">\n'
+    '    <div class="section-head reveal">\n'
+    '      <span class="eyebrow">자주 묻는 질문</span>\n'
+    '      <h2>궁금한 점을 먼저 짚어 드립니다</h2>\n'
+    '      <p>처음 AI 거버넌스를 마주하면 막막할 수 있습니다. 가장 많이 받는 질문들을 모았습니다.</p>\n'
+    '    </div>\n'
+    '    <div class="faq-list">\n' + _faq_items + '    </div>\n'
+    '  </div>\n'
+    '</section>\n\n')
+_new_home = _new_home.replace('<section class="join" id="join">',
+    _faq_section + '<section class="join" id="join">', 1)
+_faq_entities = ',\n    '.join(
+    '{"@type": "Question", "name": ' + json.dumps(_q, ensure_ascii=False)
+    + ', "acceptedAnswer": {"@type": "Answer", "text": ' + json.dumps(_a, ensure_ascii=False) + '}}'
+    for _q, _a in _faqs)
 _jsonld = ('<script type="application/ld+json">\n'
     '{\n'
     '  "@context": "https://schema.org",\n'
@@ -183,6 +219,10 @@ _jsonld = ('<script type="application/ld+json">\n'
     '  "name": "AI거버넌스협회",\n'
     '  "alternateName": "AIGA Korea",\n'
     '  "url": "' + SITE + '/"\n'
+    '  },\n'
+    '  {\n'
+    '  "@type": "FAQPage",\n'
+    '  "mainEntity": [\n    ' + _faq_entities + '\n  ]\n'
     '  }\n'
     '  ]\n'
     '}\n'
