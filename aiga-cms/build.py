@@ -293,6 +293,7 @@ if os.path.isdir(_PAGES):
         _slug = str(_fm.get('slug') or os.path.splitext(_fn)[0])
         _ptitle = str(_fm.get('title', ''))
         _pdesc = str(_fm.get('description', ''))
+        _pimg = str(_fm.get('image', ''))
         _bhtml = markdown.markdown(_bmd, extensions=['extra'])
         _bhtml = re.sub(r'^<p>', '<p class="a-lead">', _bhtml, count=1)
         _pmeta = ('<title>' + esc(_ptitle) + ' — AI거버넌스협회</title>\n'
@@ -312,6 +313,7 @@ if os.path.isdir(_PAGES):
         _pcontent = ('<article class="article">\n'
             '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · ' + esc(_ptitle) + '</div>\n'
             '<h1>' + esc(_ptitle) + '</h1>\n'
+            + ('<figure class="page-figure"><img src="/' + _pimg + '" alt="' + esc(_ptitle) + '" loading="lazy"></figure>\n' if _pimg else '')
             + _bhtml + '\n</article>')
         os.makedirs(os.path.join(OUT, _slug), exist_ok=True)
         open(os.path.join(OUT, _slug, 'index.html'), 'w', encoding='utf-8').write(render(_pmeta, _pcontent))

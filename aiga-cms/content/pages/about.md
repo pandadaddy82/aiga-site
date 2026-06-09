@@ -1,6 +1,7 @@
 ---
 title: "AI거버넌스협회 (AIGA Korea) 소개"
 slug: about
+image: images/about-notebook.jpg
 description: "AI거버넌스협회(AIGA Korea)는 기업·공공기관·소상공인·1인기업을 대상으로 AI 활용 진단, 생성형 AI 리스크 관리, AI 윤리 가이드라인, AI 거버넌스 교육과 컨설팅을 제공하는 비영리 협회입니다."
 ---
 AI거버넌스협회(AIGA Korea)는 기업·공공기관·소상공인·1인기업을 대상으로 AI 활용 진단, 생성형 AI 리스크 관리, AI 윤리 가이드라인, AI 거버넌스 교육과 컨설팅을 제공하는 비영리 협회입니다.

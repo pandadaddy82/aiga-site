@@ -65,6 +65,12 @@
   --ink:#1C1C18;
   --ink-soft:#5B5B51;
   --line:#E6E1D4;
+  --sage:#8AA893;
+  --sage-light:#EAF1EC;
+  --sage-deep:#5E7E6B;
+  --terracotta:#BE7250;
+  --terracotta-light:#F2E5DD;
+  --terracotta-deep:#9A4F32;
   --maxw:1180px;
   --font:"Nanum Gothic",-apple-system,BlinkMacSystemFont,"Malgun Gothic",sans-serif;
 }
@@ -145,7 +151,9 @@ header.scrolled .nav-toggle span{background:var(--green-900)}
   display:flex;align-items:center;
   overflow:hidden;
 }
-.orbit-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;pointer-events:none}
+.hero::before{content:"";position:absolute;inset:0;background:url(images/hero-light.jpg) center right/cover no-repeat;opacity:.16;-webkit-mask-image:radial-gradient(115% 125% at 90% 50%,#000 20%,transparent 70%);mask-image:radial-gradient(115% 125% at 90% 50%,#000 20%,transparent 70%);z-index:0;pointer-events:none}
+@media(max-width:760px){.hero::before{opacity:.1}}
+.orbit-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;pointer-events:none;z-index:1}
 .orbit-bg svg{width:min(95vh,920px);height:min(95vh,920px);opacity:.42;transform:translate(24%,2%)}
 .orbit-spin{transform-origin:center;animation:spin 150s linear infinite}
 .orbit-spin.rev{animation:spin 110s linear infinite reverse}
@@ -224,6 +232,10 @@ section{position:relative}
 .vcard:hover{transform:translateY(-4px);box-shadow:0 22px 44px -26px rgba(24,88,64,.4)}
 .vcard:hover::before{opacity:1}
 .vcard .vt{font-size:28px;color:var(--green);font-weight:800;letter-spacing:.01em}
+.vcard.d1 .vt{color:var(--sage-deep)}
+.vcard.d2 .vt{color:var(--terracotta-deep)}
+.vcard.d1::before{background:var(--sage)}
+.vcard.d2::before{background:var(--terracotta)}
 .vcard .vk{font-size:15px;color:var(--gold);font-weight:700;letter-spacing:.02em;margin:4px 0 16px}
 .vcard p{font-size:15.5px;color:var(--ink-soft);line-height:1.75}
 
@@ -231,6 +243,10 @@ section{position:relative}
 .pcard{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:40px 34px;display:flex;flex-direction:column;transition:transform .3s ease, box-shadow .3s ease, border-color .3s}
 .pcard:hover{transform:translateY(-5px);box-shadow:0 26px 50px -28px rgba(24,88,64,.45);border-color:rgba(201,169,97,.5)}
 .pcard .tag{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.pcard.d1 .tag{color:var(--sage-deep)}
+.pcard.d2 .tag{color:var(--terracotta-deep)}
+.pcard.d1:hover{border-color:var(--sage)}
+.pcard.d2:hover{border-color:var(--terracotta)}
 .pcard h3{font-size:22px;margin:14px 0 16px;color:var(--green);letter-spacing:-.02em}
 .pcard .ask{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:12px}
 .pcard p{font-size:15px;color:var(--ink-soft);line-height:1.75;flex:1}
@@ -256,6 +272,8 @@ section{position:relative}
 .icard{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .3s, box-shadow .3s;display:flex;flex-direction:column}
 .icard:hover{transform:translateY(-4px);box-shadow:0 22px 44px -26px rgba(24,88,64,.4)}
 .icard .ihead{height:120px;background:linear-gradient(135deg,var(--green) 0%, var(--green-800) 100%);position:relative;overflow:hidden}
+.icard.d1 .ihead{background:linear-gradient(135deg,var(--sage) 0%, var(--sage-deep) 100%)}
+.icard.d2 .ihead{background:linear-gradient(135deg,var(--terracotta) 0%, var(--terracotta-deep) 100%)}
 .icard .ihead .ic-orbit{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;opacity:.35}
 .icard .ibody{padding:26px 26px 30px}
 .icard .ic-tag{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
