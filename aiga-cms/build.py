@@ -313,7 +313,7 @@ if os.path.isdir(_PAGES):
         _pcontent = ('<article class="article">\n'
             '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · ' + esc(_ptitle) + '</div>\n'
             '<h1>' + esc(_ptitle) + '</h1>\n'
-            + ('<figure class="page-figure"><div class="pf-seg pf-top"><img src="/' + _pimg + '" alt="' + esc(_ptitle) + '" loading="lazy"></div><div class="pf-seg pf-bot"><img src="/' + _pimg + '" alt="" aria-hidden="true" loading="lazy"></div></figure>\n' if _pimg else '')
+            + ('<figure class="page-figure"><img src="/' + _pimg + '" alt="' + esc(_ptitle) + '" loading="lazy"></figure>\n' if _pimg else '')
             + _bhtml + '\n</article>')
         os.makedirs(os.path.join(OUT, _slug), exist_ok=True)
         open(os.path.join(OUT, _slug, 'index.html'), 'w', encoding='utf-8').write(render(_pmeta, _pcontent))

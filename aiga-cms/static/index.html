@@ -151,10 +151,11 @@ header.scrolled .nav-toggle span{background:var(--green-900)}
   display:flex;align-items:center;
   overflow:hidden;
 }
-.hero::before{content:"";position:absolute;inset:0;background:url(images/hero-light.jpg) center right/cover no-repeat;opacity:.22;-webkit-mask-image:radial-gradient(115% 125% at 90% 50%,#000 20%,transparent 70%);mask-image:radial-gradient(115% 125% at 90% 50%,#000 20%,transparent 70%);z-index:0;pointer-events:none}
-@media(max-width:760px){.hero::before{opacity:.14}}
+.hero::before{content:"";position:absolute;inset:0;background:url(images/hero-light.jpg) center center/cover no-repeat;opacity:1;z-index:0;pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,31,22,.97) 0%,rgba(10,31,22,.88) 28%,rgba(10,31,22,.62) 60%,rgba(10,31,22,.32) 100%);z-index:2;pointer-events:none}
+@media(max-width:760px){.hero::after{background:linear-gradient(168deg,rgba(10,31,22,.92) 0%,rgba(10,31,22,.78) 48%,rgba(10,31,22,.56) 100%)}}
 .orbit-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;pointer-events:none;z-index:1}
-.orbit-bg svg{width:min(95vh,920px);height:min(95vh,920px);opacity:.42;transform:translate(24%,2%)}
+.orbit-bg svg{width:min(95vh,920px);height:min(95vh,920px);opacity:.14;transform:translate(24%,2%)}
 .orbit-spin{transform-origin:center;animation:spin 150s linear infinite}
 .orbit-spin.rev{animation:spin 110s linear infinite reverse}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -322,7 +323,7 @@ footer{background:var(--green-900);color:rgba(244,242,234,.6);padding:64px 0 48p
   .services{grid-template-columns:1fr}
   .band{padding:84px 0}
   .consult{padding:40px 28px}
-  .orbit-bg svg{transform:translate(34%,4%);opacity:.28}
+  .orbit-bg svg{transform:translate(34%,4%);opacity:.1}
   .foot-right{text-align:left}
   .brand .logo-gold{height:64px}
   .brand .logo-light{height:64px}
