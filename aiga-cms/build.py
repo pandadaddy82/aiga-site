@@ -1,11 +1,41 @@
 import os, re, shutil, json
 import yaml
 import markdown
-from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'output')
 STATIC = os.path.join(ROOT, 'static')
+
+def _img_size(path):
+    import struct
+    try:
+        with open(path, 'rb') as f:
+            head = f.read(26)
+            if head[:8] == b'\x89PNG\r\n\x1a\n':
+                return struct.unpack('>II', head[16:24])
+            if head[:2] == b'\xff\xd8':
+                f.seek(2)
+                while True:
+                    byte = f.read(1)
+                    while byte and byte != b'\xff':
+                        byte = f.read(1)
+                    marker = f.read(1)
+                    while marker == b'\xff':
+                        marker = f.read(1)
+                    if not marker:
+                        break
+                    m = marker[0]
+                    if 0xC0 <= m <= 0xCF and m not in (0xC4, 0xC8, 0xCC):
+                        f.read(3)
+                        h, w = struct.unpack('>HH', f.read(4))
+                        return (w, h)
+                    seg = f.read(2)
+                    if len(seg) < 2:
+                        break
+                    f.seek(struct.unpack('>H', seg)[0] - 2, 1)
+    except Exception:
+        pass
+    return None
 CONTENT = os.path.join(ROOT, 'content', 'insights')
 SITE = 'https://aiga.or.kr'
 
@@ -297,11 +327,9 @@ if os.path.isdir(_PAGES):
         _pimg = str(_fm.get('image', ''))
         _par = ''
         if _pimg:
-            try:
-                _iw, _ih = Image.open(os.path.join(STATIC, _pimg)).size
-                _par = ' style="aspect-ratio:' + str(_iw) + '/' + str(_ih) + '"'
-            except Exception:
-                _par = ''
+            _sz = _img_size(os.path.join(STATIC, _pimg))
+            if _sz:
+                _par = ' style="aspect-ratio:' + str(_sz[0]) + '/' + str(_sz[1]) + '"'
         _bhtml = markdown.markdown(_bmd, extensions=['extra'])
         _bhtml = re.sub(r'^<p>', '<p class="a-lead">', _bhtml, count=1)
         _pmeta = ('<title>' + esc(_ptitle) + ' — AI거버넌스협회</title>\n'
