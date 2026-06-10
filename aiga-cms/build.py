@@ -331,7 +331,6 @@ if os.path.isdir(_PAGES):
             if _sz:
                 _par = ' style="aspect-ratio:' + str(_sz[0]) + '/' + str(_sz[1]) + '"'
         _bhtml = markdown.markdown(_bmd, extensions=['extra'])
-        _bhtml = re.sub(r'^<p>', '<p class="a-lead">', _bhtml, count=1)
         _pmeta = ('<title>' + esc(_ptitle) + ' — AI거버넌스협회</title>\n'
             '<meta name="description" content="' + esc(_pdesc) + '">\n'
             '<link rel="canonical" href="' + SITE + '/' + _slug + '/">\n'
@@ -346,11 +345,16 @@ if os.path.isdir(_PAGES):
             '{"@type":"ListItem","position":2,"name":"' + esc(_ptitle) + '","item":"' + SITE + '/' + _slug + '/"}'
             ']}\n'
             '</script>')
-        _pcontent = ('<article class="article">\n'
-            '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · ' + esc(_ptitle) + '</div>\n'
-            '<h1>' + esc(_ptitle) + '</h1>\n'
-            + ('<figure class="page-figure"' + _par + '><img src="/' + _pimg + '" alt="' + esc(_ptitle) + '" loading="lazy"></figure>\n' if _pimg else '')
-            + _bhtml + '\n</article>')
+        _layout = str(_fm.get('layout', ''))
+        if _layout == 'full':
+            _pcontent = _bhtml
+        else:
+            _pcontent = ('<section class="page-hero"><div class="wrap">'
+                '<div class="crumb"><a href="../index.html">홈</a> · ' + esc(_ptitle) + '</div>'
+                '<h1>' + esc(_ptitle) + '</h1>'
+                + ('<p class="ph-lead">' + esc(_pdesc) + '</p>' if _pdesc else '')
+                + '</div></section>\n'
+                '<div class="page-body"><div class="wrap">' + _bhtml + '</div></div>')
         os.makedirs(os.path.join(OUT, _slug), exist_ok=True)
         open(os.path.join(OUT, _slug, 'index.html'), 'w', encoding='utf-8').write(render(_pmeta, _pcontent))
         _page_slugs.append(_slug)
