@@ -23,4 +23,4 @@ description: "연구·집필, 표준·윤리 가이드라인, 교육·세미나�
 ## 누구를 위한 일인가
 기업과 공공기관에는 규제 준수를 넘어 신뢰를 경쟁력으로 바꾸는 길을, 소상공인과 1인 창업가에는 작은 조직이 실제로 지킬 수 있는 최소한의 거버넌스를, 공공과 정책에는 세 주체가 함께 앉는 합의의 자리를 설계해 드립니다.
 
-<div class="pquote"><div class="mk">&ldquo;</div><blockquote>완벽한 규칙 백 개보다,<br>지켜지는 규칙 세 개가 낫습니다.</blockquote></div>
+<div class="pquote"><blockquote>완벽한 규칙 백 개보다,<br>지켜지는 규칙 세 개가 낫습니다.</blockquote></div>
