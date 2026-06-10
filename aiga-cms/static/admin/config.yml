@@ -1,9 +1,9 @@
 backend:
   name: github
-  repo: pandadaddy82/aiga-site          # ← 대표님 깃허브 사용자명/저장소명 으로 바꾸세요 (예: jangdokyun/aiga-site)
+  repo: OWNER/REPO          # ← 대표님 깃허브 사용자명/저장소명 으로 바꾸세요 (예: jangdokyun/aiga-site)
   branch: main
 
-media_folder: aiga-cms/static/uploads
+media_folder: static/uploads
 public_folder: /uploads
 
 locale: ko
@@ -12,7 +12,7 @@ collections:
   - name: insights
     label: 인사이트
     label_singular: 글
-    folder: aiga-cms/content/insights
+    folder: content/insights
     create: true
     slug: '{{fields.slug}}'
     extension: md

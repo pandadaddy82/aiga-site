@@ -1,6 +1,7 @@
 import os, re, shutil, json
 import yaml
 import markdown
+from PIL import Image
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'output')
@@ -294,6 +295,13 @@ if os.path.isdir(_PAGES):
         _ptitle = str(_fm.get('title', ''))
         _pdesc = str(_fm.get('description', ''))
         _pimg = str(_fm.get('image', ''))
+        _par = ''
+        if _pimg:
+            try:
+                _iw, _ih = Image.open(os.path.join(STATIC, _pimg)).size
+                _par = ' style="aspect-ratio:' + str(_iw) + '/' + str(_ih) + '"'
+            except Exception:
+                _par = ''
         _bhtml = markdown.markdown(_bmd, extensions=['extra'])
         _bhtml = re.sub(r'^<p>', '<p class="a-lead">', _bhtml, count=1)
         _pmeta = ('<title>' + esc(_ptitle) + ' — AI거버넌스협회</title>\n'
@@ -313,7 +321,7 @@ if os.path.isdir(_PAGES):
         _pcontent = ('<article class="article">\n'
             '<div class="a-meta" style="margin-bottom:10px"><a href="../index.html" style="color:var(--gold);font-weight:700">홈</a> · ' + esc(_ptitle) + '</div>\n'
             '<h1>' + esc(_ptitle) + '</h1>\n'
-            + ('<figure class="page-figure"><img src="/' + _pimg + '" alt="' + esc(_ptitle) + '" loading="lazy"></figure>\n' if _pimg else '')
+            + ('<figure class="page-figure"' + _par + '><img src="/' + _pimg + '" alt="' + esc(_ptitle) + '" loading="lazy"></figure>\n' if _pimg else '')
             + _bhtml + '\n</article>')
         os.makedirs(os.path.join(OUT, _slug), exist_ok=True)
         open(os.path.join(OUT, _slug, 'index.html'), 'w', encoding='utf-8').write(render(_pmeta, _pcontent))

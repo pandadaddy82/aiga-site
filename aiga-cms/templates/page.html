@@ -113,8 +113,20 @@ footer .foot-main{text-align:center;max-width:680px;margin:0 auto}
 .form-done p{font-size:14.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:26px}
 .done-close{background:var(--green);color:#fff;border:none;font-family:var(--font);font-weight:700;font-size:15px;padding:13px 30px;border-radius:999px;cursor:pointer}
 @media(max-width:520px){.modal-card{padding:34px 24px}}
-.page-figure{margin:8px 0 42px;aspect-ratio:768/432}
+.page-figure{margin:8px 0 42px}
 .page-figure img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.96);-webkit-mask:url(/images/brush-mask.png) center/100% 100% no-repeat;mask:url(/images/brush-mask.png) center/100% 100% no-repeat}
+.greeting{display:flex;gap:38px;align-items:center;margin:6px 0 52px}
+.greeting-photo{flex:0 0 36%;max-width:300px}
+.greeting-photo img{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 30px rgba(10,31,22,.14))}
+.greeting-body{flex:1;min-width:0}
+.greeting-body .g-label{display:inline-block;color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.greeting-body h2{font-size:clamp(20px,2.6vw,26px);font-weight:800;color:var(--green);line-height:1.45;margin:0 0 18px;border:0;padding:0}
+.greeting-body p{font-size:15.5px;line-height:1.85;color:var(--ink);margin:0 0 14px}
+.greeting-body .g-sign{margin-top:22px;font-weight:800;color:var(--green-900)}
+@media(max-width:760px){.greeting{flex-direction:column;gap:24px;align-items:flex-start}.greeting-photo{max-width:220px;align-self:center}}
+.org-chart{margin:16px 0 10px}
+.org-chart svg{width:100%;height:auto;display:block;max-width:740px;margin:0 auto}
+.org-chart .org-cap{font-size:13.5px;color:var(--ink-soft);line-height:1.7;margin:16px auto 0;text-align:center;max-width:620px}
 </style>
 </head>
 <body>
