@@ -3,7 +3,7 @@ backend:
   repo: pandadaddy82/aiga-site
   branch: main
 
-media_folder: static/uploads
+media_folder: aiga-cms/static/uploads
 public_folder: /uploads
 
 locale: ko
@@ -12,7 +12,7 @@ collections:
   - name: insights
     label: 인사이트
     label_singular: 글
-    folder: content/insights
+    folder: aiga-cms/content/insights
     create: true
     slug: '{{fields.slug}}'
     extension: md
